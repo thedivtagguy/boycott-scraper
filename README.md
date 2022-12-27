@@ -31,20 +31,22 @@ To run the scraper, simply run the following command:
 All settings, including the term to search for and the number of results to return, are set in the `config.json` file.
 
 ```js
-    {
-            "coordinates": {
-                "long": 20.5937, // Longitude
-                "lat": 78.9629,  // Latitude
-                "radius": 10000  // Radius in kilometers
-            },
-            "search_term": "boycott", // Default search term
-            "limit": "1000"      // Number of results to return per search. No upper limit!
-
-            // OPTIONAL
-            "weekly": "true",    // Search every week, starting from the current week
-            "year": "2016",      // Year to start searching from, if the above is set to false
-            "week": "1",         // Week to start searching from, if the above is set to false
-    }
+{
+    "coordinates": {
+        "long": 20.5937, // longitude
+        "lat": 78.9629,  // latitude
+        "radius": 10000  // radius, in kilometers
+    },
+    "search_term": "boycott", // term to search for
+    "clean": "true",          // clean the data? (makes lowercase, removes punctuation, removes stopwords, etc.)
+    "twitterExtract": "true", // extract named entities, hashtags, urls, and mentions from the tweets? (slows down the process just a bit)
+    "limit": 1000,           // number of results to return per search
+    "analysis": "true",      // perform sentiment analysis on the tweets? (slows down the process just a bit)
+    "scrape_type": "weekly", // type of search to perform. Options: weekly, fullYear, custom
+    "year": 2016,           // year to start searching from, if the above is set to fullYear
+    "start_date": "2016-01-01", // date to start searching from, if the above is set to custom
+    "end_date": "2016-12-31"    // date to end searching at, if the above is set to custom
+}
 ```
 
 ### 🖍️ CLI Access
