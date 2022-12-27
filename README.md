@@ -15,6 +15,10 @@ This scraper searches for tweets containing the term 'boycott' and returns 1000 
 
 ## 🖨️ Usage
 
+There are two ways to use this scraper. You can either run it from the command line, or use the Python script.
+
+### 📋 Script
+
 To run the scraper, simply run the following command:
 
     python3 scraper/runner.py
@@ -28,7 +32,7 @@ All settings, including the term to search for and the number of results to retu
                 "lat": 78.9629,  // Latitude
                 "radius": 10000  // Radius in kilometers
             },
-            "search_term": "boycott",
+            "search_term": "boycott", // Default search term
             "limit": "1000"      // Number of results to return per search. No upper limit!
 
             // OPTIONAL
@@ -37,6 +41,36 @@ All settings, including the term to search for and the number of results to retu
             "week": "1",         // Week to start searching from, if the above is set to false
     }
 ```
+
+### 🖍️ CLI Access
+
+Script arguments can be passed to the script using the CLI. The following arguments are available:
+
+```js
+    --help            show this help message and exit
+    --search_term     Search term to use
+    --limit           Number of results to return per search
+    --radius          Radius to search around, in kilometers
+    --lat             Latitude to search around
+    --long            Longitude to search around
+    --type            Type of search to perform. Options: weekly, fullYear, custom
+    --year            Year to start searching from, if the above is set to fullYear
+    --start_date      Date to start searching from, if the above is set to custom
+    --end_date        Date to end searching at, if the above is set to custom
+```
+
+Any of these arguments override the settings in the `config.json` file. 
+
+For example, to search around London (51.5074° N, 0.1278° W) for the term 'monty python' and return 100 results per search, run the following command:
+
+    python3 scraper/runner.py --search_term "monty python" --limit 100 --lat 51.5074 --long -0.1278
+
+If you want to search for the term 'boycott' every week, starting from the current week, but limit to just 5 results per search, run the following command:
+
+    python3 scraper/runner.py --search_term "boycott" --limit 5 --type weekly
+
+
+## 📁 Data
 
 After each run, the updates of the week are saved in the `data` folder. For the latest data, see the `data/current_week` folder.
 Details about the run are logged in `data/logger.json`.

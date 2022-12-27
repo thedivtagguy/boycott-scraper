@@ -1,6 +1,7 @@
+import datetime
 def validate_config(config):
   # check if all required fields are present
-  required_fields = ['coordinates', 'search_term', 'clean', 'twitterExtract', 'limit', 'weekly', 'year', 'week']
+  required_fields = ['coordinates', 'search_term', 'clean', 'twitterExtract', 'limit', 'scrape_type', ]
   for field in required_fields:
     if field not in config:
       return f"Missing required field: {field}"
@@ -25,11 +26,22 @@ def validate_config(config):
 
 
   # check if clean, twitterExtract, and weekly are boolean
-  for field in ['clean', 'twitterExtract', 'weekly']:
+  for field in ['clean', 'twitterExtract', 'analysis']:
     value = config[field]
     if value not in ['true', 'false']:
       return f"{field} must be 'true' or 'false'"
 
+  # If scrape_type is custom, check if start_date and end_date are present
+  # and in the correct format
+  scrape_type = config['scrape_type']
+  if scrape_type == 'custom':
+    if 'start_date' not in config or 'end_date' not in config:
+      return "Missing required field(s) for custom scrape"
+    for field in ['start_date', 'end_date']:
+      try:
+        datetime.datetime.strptime(config[field], '%Y-%m-%d')
+      except ValueError:
+        return f"Invalid date format for {field}"
 
   # check if limit is an integer
   try:

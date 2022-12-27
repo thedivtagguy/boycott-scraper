@@ -8,9 +8,8 @@
     "clean": "true",
     "twitterExtract": "true",
     "limit": 1000,
-
-
-    "weekly": "true",
+    "analysis": "true",
+    "scrape_type": "weekly",
     "year": 2016,
     "week": 1
 }

@@ -1,5 +1,26 @@
 {
-    "last_updated": "2022-12-27 19:16:45",
+    "last_updated": "2022-12-27 23:33:45",
     "last_week": 52,
-    "last_year": "2022"
+    "last_year": "2022",
+    "last_config": {
+        "keywords": "monty python",
+        "coords": {
+            "long": 20.5937,
+            "lat": 78.9629,
+            "radius": 10000
+        },
+        "date": {
+            "start": "2022-12-27",
+            "end": "2022-12-27",
+            "start_date": "2022-12-19",
+            "end_date": "2022-12-26"
+        },
+        "limit": "10"
+    },
+    "processes": {
+        "clean": "true",
+        "twitterExtract": "true",
+        "analysis": "true"
+    },
+    "number_of_tweeks_fetched": 2
 }

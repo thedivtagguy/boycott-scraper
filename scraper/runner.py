@@ -1,40 +1,55 @@
+import sys
+sys.path.append('scraper')
+
+
 from clean_twitter import clean_tweet
 from clean_data import clean_text
 from get_dates import get_dates
 from fetch_tweets import get_tweets
 from validate_config import validate_config
-from archive_file import archive_data
+from parse_cli import parse_cli
+from book_keeper import logging as log_details
+
 import os
 import json
-import sys
 import datetime
 import crayons
 import pandas as pd
-sys.path.append('scraper')
+
 
 # Read in config.json
 with open('config.json', 'r') as f:
     config = json.load(f)
 
-# Validate config.json and exit if there are any errors
-# validate_config returns True if there are no errors
-# or a string with the error message if there are errors
+# Parse CLI arguments
+config = parse_cli(config)
+start_date, end_date = "", ""
+week, year = datetime.datetime.now().isocalendar()[1], datetime.datetime.now().strftime('%Y')
+df = pd.DataFrame()
 
+
+# Validate config.json and exit if there are any errors
 if validate_config(config) != True:
     print(crayons.red(f'❌ {validate_config(config)}'))
     print(crayons.red(f'Please fix the errors in config.json and try again.'))
     sys.exit()
 
-# Fetch for current week
-start_date, end_date = get_dates(current_week=True)
-week, year = datetime.datetime.now().isocalendar(
-)[1], datetime.datetime.now().strftime('%Y')
+# Fetch for current week if config['weekly'] is true
+if config['scrape_type'] == 'weekly':
+    start_date, end_date = get_dates(current_week=True)
+    # Get tweets for current week
+    print(crayons.blue(f' ℹ️ Current week: {week}, year: {year}'))
+    df = get_tweets(from_date=start_date, to_date=end_date, config=config)
 
-df = pd.DataFrame()
+elif config['scrape_type'] == 'fullYear':
+    # Get tweets for current year
+    print(crayons.blue(f' ℹ️ Current year: {year}'))
+    df = get_tweets(from_date=f'{config["year"]}-01-01', to_date=f'{config["year"]}-12-31', config=config)
 
-# Get tweets for current week
-print(crayons.blue(f' ℹ️ Current week: {week}, year: {year}'))
-df = get_tweets(from_date=start_date, to_date=end_date)
+elif config['scrape_type'] == 'custom':
+    # Get tweets for custom date range
+    print(crayons.blue(f' ℹ️ Custom date range: {config["start_date"]} - {config["end_date"]}'))
+    df = get_tweets(from_date=config['start_date'], to_date=config['end_date'], config=config)
 
 # Clean twitter data
 if config['twitterExtract'] != 'false':
@@ -50,30 +65,13 @@ if config['clean'] != 'false':
 else: 
     print(crayons.red(f'🧹 Not cleaning text...'))
 
+dates = {
+    'start_date': start_date,
+    'end_date': end_date
+}
 
-# Read logger.json
-with open('data/logger.json', 'r') as f:
-    logger = json.load(f)
-
-# Update logger.json
-logger['last_updated'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-logger['last_week'] = week
-logger['last_year'] = year
-
-# Write logger.json
-with open('data/logger.json', 'w') as f:
-    json.dump(logger, f, indent=4)
-
-# If the current week and year are the same as the last week and year
-# Then the data is not updated and the file is not archived
-if logger['last_week'] == week and logger['last_year'] == year:
-    print(crayons.red(
-        f'🚫 Data not updated, not archiving file for current week'))
-else:
-    # If the current week and year are different from the last week and year
-    # Then the data is updated and the file is archived
-    print(crayons.green(f'📁 Archiving file for current week'))
-    archive_data()
+# Log details
+log_details(config = config, length = len(df), dates = dates)
 
 # Write CSV File to a new folder in data called current_week
 if not os.path.exists('data/current_week'):

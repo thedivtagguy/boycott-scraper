@@ -16,26 +16,21 @@
 
 import pandas as pd
 import snscrape.modules.twitter as sntwitter
-import json
 import itertools
 from halo import Halo
 import datetime
 import crayons
 from get_dates import get_dates
 
-# Read config file
-with open('config.json') as f:
-    config = json.load(f)
-
-# Read coordinates from config file
-loc = "{}, {}, {}km".format(config['coordinates']['long'], config['coordinates']['lat'], config['coordinates']['radius'])
-print(crayons.blue(f'📍 Coordinates: {loc}'))
-print(crayons.blue(f'🔎 Search term: {config["search_term"]}'))
 
 
 
-def get_tweets(currentWeek = False, year = None, weekNumber = None, from_date = None, to_date = None):
-
+def get_tweets(currentWeek = False, year = None, weekNumber = None, from_date = None, to_date = None, config = None):
+    loc = "{}, {}, {}km".format(config['coordinates']['long'], config['coordinates']['lat'], config['coordinates']['radius'])
+    search_term = config['search_term']
+    limit = config['limit']
+    print(crayons.blue(f'📍 Coordinates: {loc}'))
+    print(crayons.blue(f'🔎 Search term: {config["search_term"]}'))
     if weekNumber is None:
         # Get current week number and year
         weekNumber, year = datetime.datetime.now().isocalendar()[1], datetime.datetime.now().strftime('%Y')
