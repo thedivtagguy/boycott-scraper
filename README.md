@@ -109,7 +109,7 @@ python -m venv env
 # activate the virtual environment (Linux/MacOS)
 source env/bin/activate
 # activate the virtual environment (Windows)
-env\Scripts\activate.bat
+env/Scripts/activate
 ```
 4. Install the required packages:
 ```bash
