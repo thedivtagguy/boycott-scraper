@@ -1,0 +1,7 @@
+name: Scrape Weekly Data
+on: 
+  workflow_dispatch:
+  schedule: 
+    - cron: "@weekly" 
+env: 
+  CSV_FILENAME: "data/current_week/data.csv"

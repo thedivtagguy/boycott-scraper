@@ -16,14 +16,23 @@
 
 import pandas as pd
 import snscrape.modules.twitter as sntwitter
+import json
 import itertools
 from halo import Halo
 import datetime
 import crayons
 from get_dates import get_dates
-from clean_data import lower_case, trim_text
 
-loc = '20.5937, 78.9629, 10000km'
+# Read config file
+with open('config.json') as f:
+    config = json.load(f)
+
+# Read coordinates from config file
+loc = "{}, {}, {}km".format(config['coordinates']['long'], config['coordinates']['lat'], config['coordinates']['radius'])
+print(crayons.blue(f'📍 Coordinates: {loc}'))
+print(crayons.blue(f'🔎 Search term: {config["search_term"]}'))
+
+
 
 def get_tweets(currentWeek = False, year = None, weekNumber = None, from_date = None, to_date = None):
 
@@ -46,7 +55,7 @@ def get_tweets(currentWeek = False, year = None, weekNumber = None, from_date = 
         try:
             # Get tweets
             df_twitter = pd.DataFrame(itertools.islice(sntwitter.TwitterSearchScraper(
-            'boycott since:{} until:{} geocode:"{}"'.format(start_date, end_date, loc)).get_items(), 1000))[['user', 'date','rawContent']]
+            '{} since:{} until:{} geocode:"{}"'.format(config['search_term'], start_date, end_date, loc)).get_items(), int(config['limit'])))[['user', 'date','rawContent']]
         except Exception as e:
             print(crayons.red(f'Error: {e}'))
             return df_twitter
@@ -59,7 +68,7 @@ def get_tweets(currentWeek = False, year = None, weekNumber = None, from_date = 
         df_twitter['user_location'] = df_twitter['user_location'].apply(lambda x: x.strip())
         # Remove non-ascii characters
         df_twitter['user_location'] = df_twitter['user_location'].apply(lambda x: x.encode('ascii', 'ignore').decode('ascii'))
-        
+
 
 
         df_twitter['verified'] =  df_twitter['user'].apply(lambda x: x['verified'])

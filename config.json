@@ -1,0 +1,12 @@
+{
+    "coordinates": {
+        "long": 20.5937,
+        "lat": 78.9629,
+        "radius": 10000
+    },
+    "search_term": "boycott",
+    "weekly": "true",
+    "year": "2016",
+    "week": "1",
+    "limit": "1000"
+}
