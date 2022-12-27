@@ -20,9 +20,7 @@ def get_named_entities(text):
 
     named_entities_str = ",".join(named_entities)
     # Remove links, hashtags, mentions, numbers and punctuation (except commas and periods) from named entities
-    named_entities_str = re.sub(r'(?:^|(?<=[^\s#@]))[^\s\w]+(?:$|(?=[^\s#@]))', '', named_entities_str)
-    # Remove anything with https
-    named_entities_str = re.sub(r'https\S+', '', named_entities_str)
+    named_entities_str = re.sub(r'https?://\S+|#\S+|@\S+|\b\d+\b|[^\s\w,.!?]', '', named_entities_str)
     return named_entities_str
 
 def find_emojis(text):

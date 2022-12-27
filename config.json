@@ -7,10 +7,10 @@
     "search_term": "boycott",
     "clean": "true",
     "twitterExtract": "true",
-    "limit": "1000",
+    "limit": 1000,
 
 
     "weekly": "true",
-    "year": "2016",
-    "week": "1"
+    "year": 2016,
+    "week": 1
 }

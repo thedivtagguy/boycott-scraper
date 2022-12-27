@@ -2,6 +2,7 @@ from clean_twitter import clean_tweet
 from clean_data import clean_text
 from get_dates import get_dates
 from fetch_tweets import get_tweets
+from validate_config import validate_config
 from archive_file import archive_data
 import os
 import json
@@ -15,6 +16,14 @@ sys.path.append('scraper')
 with open('config.json', 'r') as f:
     config = json.load(f)
 
+# Validate config.json and exit if there are any errors
+# validate_config returns True if there are no errors
+# or a string with the error message if there are errors
+
+if validate_config(config) != True:
+    print(crayons.red(f'❌ {validate_config(config)}'))
+    print(crayons.red(f'Please fix the errors in config.json and try again.'))
+    sys.exit()
 
 # Fetch for current week
 start_date, end_date = get_dates(current_week=True)
@@ -23,18 +32,9 @@ week, year = datetime.datetime.now().isocalendar(
 
 df = pd.DataFrame()
 
-# Check if a file for the current week already exists in data/current_week
-# It is possible that the scraper is run multiple times in the same week
-# If the file exists, us that file instead of fetching new data
-
-if os.path.exists(f'data/current_week/tweets-{year}-{week}.csv'):
-    print(crayons.green(
-        f'File for current week already exists, using that file instead of fetching new data'))
-    df = pd.read_csv(f'data/current_week/tweets-{year}-{week}.csv')
-else:
-    # Get tweets for current week
-    print(crayons.blue(f' ℹ️ Current week: {week}, year: {year}'))
-    df = get_tweets(from_date=start_date, to_date=end_date)
+# Get tweets for current week
+print(crayons.blue(f' ℹ️ Current week: {week}, year: {year}'))
+df = get_tweets(from_date=start_date, to_date=end_date)
 
 # Clean twitter data
 if config['twitterExtract'] != 'false':
