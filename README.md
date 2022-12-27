@@ -24,17 +24,17 @@ All settings, including the term to search for and the number of results to retu
 ```json
     {
             "coordinates": {
-                "long": 20.5937, # Longitude
-                "lat": 78.9629,  # Latitude
-                "radius": 10000  # Radius in kilometers
+                "long": 20.5937, // Longitude
+                "lat": 78.9629,  // Latitude
+                "radius": 10000  // Radius in kilometers
             },
             "search_term": "boycott",
-            "limit": "1000"      # Number of results to return per search. No upper limit!
+            "limit": "1000"      // Number of results to return per search. No upper limit!
 
-            # OPTIONAL: If you want to search for a specific hashtag, use the following line instead
-            "weekly": "true",    # Search every week, starting from the current week
-            "year": "2016",      # Year to start searching from, if the above is set to false
-            "week": "1",         # Week to start searching from, if the above is set to false
+            // OPTIONAL: If you want to search for a specific hashtag, use the following line instead
+            "weekly": "true",    // Search every week, starting from the current week
+            "year": "2016",      // Year to start searching from, if the above is set to false
+            "week": "1",         // Week to start searching from, if the above is set to false
     }
 ```
 
