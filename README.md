@@ -1,4 +1,4 @@
-# Twitter Boycott Tracker
+# 😡 Twitter Boycott Tracker
 
 There's always something to be outraged about. What is it this week? 
 
@@ -13,7 +13,7 @@ This scraper searches for tweets containing the term 'boycott' and returns 1000 
 - `mentions`: Contains a comma-separated list of mentions found in the tweet.
 - `followers`: Contains the number of followers the user has.
 
-## Usage
+## 🖨️ Usage
 
 To run the scraper, simply run the following command:
 
@@ -41,15 +41,15 @@ After the first run, the old data is saved in the `data/YEAR` folder. The old da
     
         tweets-YEAR-WEEK.csv
 
-## Contributing
+## 🧠 Contributing
 
 If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-## Licensing
+## 🧾 Licensing
 
 The code in this project is licensed under MIT license.
 
-## Contact
+## 📮 Contact
 
 If you have any questions, please contact me at [my email](mailto:amanbhargava2001@gmail.com).
 
