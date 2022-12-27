@@ -2,7 +2,8 @@ import json
 import crayons
 import sys
 import datetime
-
+import pandas as pd
+import os
 sys.path.append('scraper')
 
 from archive_file import archive_data
@@ -27,8 +28,23 @@ def logging(config = None, length = None, dates = None):
     logger['processes']['twitterExtract'] = config['twitterExtract']
     logger['processes']['clean'] = config['clean']
     
+    # Convert logger to a CSV file
+    # Even the nested JSON keys are converted to individual columns
+    logger_df = pd.json_normalize(logger)
+    # Fix the column names
+    logger_df.columns = logger_df.columns.str.replace(
+        'last_config.', '', regex=True).str.replace('processes.', '', regex=True)  
+    logger_df.columns = logger_df.columns.str.replace(
+        '.', '_', regex=True).str.replace('date.', '', regex=True)  
 
 
+        
+    # Create a CSV file if it does not exist 
+    if not os.path.exists('data/fullLog.csv'):
+        logger_df.to_csv('data/fullLog.csv', index=False)
+    else:
+        # If the file exists, append the new data to it
+        logger_df.to_csv('data/fullLog.csv', mode='a', header=False, index=False)
 
     # Write logger.json
     with open('data/logger.json', 'w') as f:

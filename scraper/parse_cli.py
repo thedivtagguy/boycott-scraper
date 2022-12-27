@@ -16,8 +16,6 @@ def parse_cli(config):
     args = parser.parse_args()
 
     # If CLI arguments are specified, make changes to config object
-    if args.week:
-        config['week'] = args.week
     if args.year:
         config['year'] = args.year
     if args.search_term:
