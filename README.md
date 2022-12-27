@@ -96,25 +96,27 @@ This project uses Python 3.6. Here's how to get it up and running:
 ```bash
 git clone https://github.com/thedivtagguy/boycott-scraper.git
 ```
-    Change into the repository directory:
+2. Change into the repository directory:
 
+```bash
 cd boycott-scraper
+```
+3. (Optional) Create and activate a virtual environment. Can be skipped if you don't want to use a virtual environment.
 
-    (Optional) Create and activate a virtual environment. Can be skipped if you don't want to use a virtual environment.
-
+```bash
 # create a virtual environment
 python -m venv env
-
 # activate the virtual environment (Linux/MacOS)
 source env/bin/activate
-
 # activate the virtual environment (Windows)
 env\Scripts\activate.bat
-
-    Install the required packages:
-
+```
+4. Install the required packages:
+```bash
 pip install -r requirements.txt
 ```
+
+Done! You're ready to go. Refer to the Usage section above for more information.
 
 ## 🧠 Contributing
 
