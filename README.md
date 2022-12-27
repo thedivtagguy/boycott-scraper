@@ -21,6 +21,7 @@ To run the scraper, simply run the following command:
 
 All settings, including the term to search for and the number of results to return, are set in the `config.json` file.
 
+```json
     {
             "coordinates": {
                 "long": 20.5937, # Longitude
@@ -28,11 +29,14 @@ All settings, including the term to search for and the number of results to retu
                 "radius": 10000  # Radius in kilometers
             },
             "search_term": "boycott",
+            "limit": "1000"      # Number of results to return per search. No upper limit!
+
+            # OPTIONAL: If you want to search for a specific hashtag, use the following line instead
             "weekly": "true",    # Search every week, starting from the current week
             "year": "2016",      # Year to start searching from, if the above is set to false
             "week": "1",         # Week to start searching from, if the above is set to false
-            "limit": "1000"      # Number of results to return per search
     }
+```
 
 After each run, the updates of the week are saved in the `data` folder. For the latest data, see the `data/current_week` folder.
 Details about the run are logged in `data/logger.json`.
