@@ -21,7 +21,7 @@ To run the scraper, simply run the following command:
 
 All settings, including the term to search for and the number of results to return, are set in the `config.json` file.
 
-```json
+```js
     {
             "coordinates": {
                 "long": 20.5937, // Longitude
