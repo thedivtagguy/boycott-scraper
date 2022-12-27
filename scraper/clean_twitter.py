@@ -7,6 +7,7 @@ import re
 import spacy as spacy
 from clean_data import lower_case, trim_text
 
+
 # Load the spacy model
 nlp = spacy.load('en_core_web_sm')
 

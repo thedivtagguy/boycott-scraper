@@ -16,7 +16,6 @@ with open('config.json', 'r') as f:
     config = json.load(f)
 
 
-
 # Fetch for current week
 start_date, end_date = get_dates(current_week=True)
 week, year = datetime.datetime.now().isocalendar(
@@ -38,12 +37,18 @@ else:
     df = get_tweets(from_date=start_date, to_date=end_date)
 
 # Clean twitter data
-print(crayons.yellow(f'📇 Extracting twitter data...'))
-df = clean_tweet(df)
+if config['twitterExtract'] != 'false':
+    print(crayons.yellow(f'📇 Extracting twitter data...'))
+    df = clean_tweet(df)
+else:
+    print(crayons.red(f'📇 Not extracting twitter data...'))
 
-# Clean text in the rawContent column
-print(crayons.yellow(f'🧹 Cleaning text...'))
-df['rawContent'] = df['rawContent'].apply(clean_text)
+if config['clean'] != 'false':
+    # Clean text in the rawContent column
+    print(crayons.yellow(f'🧹 Cleaning text...'))
+    df['rawContent'] = df['rawContent'].apply(clean_text)
+else: 
+    print(crayons.red(f'🧹 Not cleaning text...'))
 
 
 # Read logger.json
@@ -61,7 +66,7 @@ with open('data/logger.json', 'w') as f:
 
 # If the current week and year are the same as the last week and year
 # Then the data is not updated and the file is not archived
-if logger['last_week'] == week and logger['last_year'] == year and logger['last_updated'] != datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'):
+if logger['last_week'] == week and logger['last_year'] == year:
     print(crayons.red(
         f'🚫 Data not updated, not archiving file for current week'))
 else:
